@@ -9,3 +9,8 @@ class Registry(modesl.Model):
 	value = models.BigIntegerField()
 	nature = models.ForeignKey('natures.Nature', on_delete=models.CASCADE)
 	
+	def __str__(self):
+		return self.name
+
+	class Meta:
+		verbose_name_plural='Registries'
