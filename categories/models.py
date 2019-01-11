@@ -12,6 +12,9 @@ class Category(models.Model):
 
 	nature = models.CharField(max_length=2,choices=NATURE)
 
+	created = models.DateTimeField(auto_now_add=True)
+	modified = models.DateTimeField(auto_now=True)
+
 	def __str__(self):
 		return self.name
 
