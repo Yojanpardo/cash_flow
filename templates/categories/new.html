@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+    Nueva categoria
+{% endblock title %}
+{% block container %}
+    <form action="." method="POST" enctype="">
+    	{% csrf_token %}
+    	{{form.as_p}}
+		<button type="submit">Crear!</button>
+    </form>
+{% endblock container %}

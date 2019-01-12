@@ -3,5 +3,7 @@
     Página principal
 {% endblock title %}
 {% block container %}
-    hola mundo
+    <a href="{% url 'categories:new' %}">Nueva categoria</a>
+    <a href="{% url 'registries:new' %}">Nuevo registro</a>
+    {{pene}}
 {% endblock container %}
