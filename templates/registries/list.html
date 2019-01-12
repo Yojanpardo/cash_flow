@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}
+    Registros
+{% endblock title %}
+{% block container %}
+	{% for registry in registries %}
+		<p>{{registry.name}}</p>
+		<p>{{registry.description}}</p>
+		{{registry.category.nature}}
+		<p>{{registry.value}}</p>
+	{% endfor %}
+{% endblock container %}

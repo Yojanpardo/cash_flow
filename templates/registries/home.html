@@ -5,5 +5,12 @@
 {% block container %}
     <a href="{% url 'categories:new' %}">Nueva categoria</a>
     <a href="{% url 'registries:new' %}">Nuevo registro</a>
-    {{pene}}
+    <a href="{% url 'registries:registries' %}">Ver registros</a>
+    {% if balance > 0 %}
+    	<p>felicidades tienes un flujo de caja positivo</p>
+    	{{balance}} 
+    {% else %}
+    	<p>Cuidado! tu flujo de caja es negativo! revisa bien tus cuentas</p>
+    	{{balance}}   
+    {% endif %}
 {% endblock container %}
