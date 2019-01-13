@@ -3,9 +3,13 @@
     Página principal
 {% endblock title %}
 {% block container %}
-    <a href="{% url 'categories:new' %}">Nueva categoria</a>
-    <a href="{% url 'registries:new' %}">Nuevo registro</a>
-    <a href="{% url 'registries:registries' %}">Ver registros</a>
+    <a href="{% url 'categories:new' %}">Nueva categoria</a> |
+    <a href="{% url 'registries:new' %}">Nuevo registro</a> |
+    <a href="{% url 'registries:registries' %}">Ver registros</a> |
+    {% if user.is_anonymous %}
+        <a href="{% url 'profiles:signup' %}">Regístrate</a> |
+        <a href="{% url 'profiles:login' %}">Inicia sesión</a> |
+    {% endif %}
     {% if balance > 0 %}
     	<p>felicidades tienes un flujo de caja positivo</p>
     	{{balance}} 

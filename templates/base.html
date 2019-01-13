@@ -8,6 +8,10 @@
 </head>
 <body>
 	<div class="container">
+		{% if not user.is_anonymous %}
+			<span>Hola {{request.user.username}} </span>
+			<a href="{% url 'profiles:logout' %}">Cerrar sesión</a>
+		{% endif %}
 		{% block container %}
 		{% endblock container %}
 	</div>

@@ -5,4 +5,5 @@ from .models import Category
 class NewCategoryForm(forms.ModelForm):
 	class Meta:
 		model = Category
-		fields = ['name','description','nature']
+		fields = ['name','description','nature','user']
+

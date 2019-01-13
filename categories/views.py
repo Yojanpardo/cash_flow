@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from .forms import NewCategoryForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
-class NewCategoryView(CreateView):
+class NewCategoryView(LoginRequiredMixin, CreateView):
 	form_class = NewCategoryForm
 	template_name = 'categories/new.html'
 	success_url = reverse_lazy('registries:home')

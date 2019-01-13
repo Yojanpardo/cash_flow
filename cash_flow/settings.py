@@ -117,7 +117,9 @@ STATICFILES_FINDERS = [
 ]
 STATIC_URL = '/static/'
 
-LOGIN_URL = 'users:login'
+LOGIN_URL = 'profiles:login'
+LOGIN_REDIRECT_URL = 'registries:home'
+LOGOUT_REDIRECT_URL = LOGIN_URL
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'

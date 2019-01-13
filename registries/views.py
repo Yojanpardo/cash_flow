@@ -3,9 +3,10 @@ from django.views.generic import TemplateView, CreateView, ListView
 from django.urls import reverse_lazy
 from .forms import NewRegistryForm
 from .models import Registry
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin,TemplateView):
 	template_name = 'registries/home.html'
 
 	def get_context_data(self, **kwargs):
@@ -23,7 +24,7 @@ class HomeView(TemplateView):
 		context['balance'] = balance
 		return context
 
-class NewRegistryView(CreateView):
+class NewRegistryView(LoginRequiredMixin,CreateView):
 	form_class = NewRegistryForm
 	template_name = 'registries/new.html'
 	success_url = reverse_lazy('registries:home')
@@ -33,9 +34,10 @@ class NewRegistryView(CreateView):
 	    context['user'] = self.request.user
 	    return context
 
-class ListRegistriesView(ListView):
+
+class ListRegistriesView(LoginRequiredMixin,ListView):
 	template_name = 'registries/list.html'
 	model = Registry
-	ordering = 'name'
+	ordering = '-created'
 	paginated_by = 30
 	context_object_name = 'registries'
