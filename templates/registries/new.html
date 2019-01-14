@@ -3,10 +3,78 @@
     Nuevo registro
 {% endblock title %}
 {% block container %}
-	<form action="{% url "registries:new" %}" method="POST">
-		{% csrf_token %}
-		<input type="hidden" value="{{user.pk}}" name="user">
-		{{form.as_p}}
-		<button type="submit">Registrar</button>
-	</form>
+	<div class="row mt-5">
+		<div class="col-sm-12 col-md-8 align-self-center mt-3 offset-md-2">
+			<form action="{% url "registries:new" %}" method="POST" class="col align-self-center">
+				{% csrf_token %}
+				<input type="hidden" value="{{user.pk}}" name="user">
+				<label for="name">Título:</label>
+				<input type="text" name="name" id="name" class="form-control {% if form.name.errors %}invalid{% endif %}" value="{% if form.errors %}{{form.name.value}}{% endif %}">
+				{% if form.name.errors %}
+					<div class="alert alert-danger" role="alert">
+					    {% for error in form.name.errors %}
+					    	{{error}}
+					    {% endfor %}
+					</div>
+				{% endif %}
+				<label for="description">Descripción:</label>
+				<textarea name="description" id="description" class="form-control {% if form.description.errors %}invalid{% endif %}">{% if form.errors %}{{form.description.value}}{% endif %}</textarea>
+				{% if form.description.errors %}
+					<div class="alert alert-danger" role="alert">
+					    {% for error in form.description.errors %}
+					    	{{error}}
+					    {% endfor %}
+					</div>
+				{% endif %}
+				<label for="category">Categoria:</label>
+				<select name="category" id="category" class="form-control {% if form.category.errors %}invalid{% endif %}">
+					{% if form.errors %}
+						{{form.category.value}}
+					{% else %}
+						<option value selected>----------</option>
+					{% endif %}
+					{% for category in categories %}
+						<option value="{{category.pk}}">{{category.name}}</option>
+					{% endfor %}
+				</select>
+				{% if form.category.errors %}
+					<div class="alert alert-danger" role="alert">
+					    {% for error in form.category.errors %}
+					    	{{error}}
+					    {% endfor %}
+					</div>
+				{% endif %}
+				<label for="datepicker">Fecha:</label>
+				<input id='datepicker' name="date" value="{% if form.errors %}{{ form.date.value }}{% else %}{{date}}{% endif %}" class="form-control {% if form.date.errors %}invalid{% endif %}" readonly="true">
+				{% if form.date.errors %}
+					<div class="alert alert-danger" role="alert">
+					    {% for error in form.date.errors %}
+					    	{{error}}
+					    {% endfor %}
+					</div>
+				{% endif %}
+				<label for="value">Valor:</label>
+				<input type="number" id="value" name="value" class="form-control {% if form.value.errors %}invalid{% endif %}" value="{% if form.errors %}{{ form.value.value }}{% endif %}">
+				{% if form.value.errors %}
+					<div class="alert alert-danger" role="alert">
+					    {% for error in form.value.errors %}
+					    	{{error}}
+					    {% endfor %}
+					</div>
+				{% endif %}
+				<button type="submit">Registrar</button>
+			</form>
+			
+		</div>
+		
+	</div>
 {% endblock container %}
+{% block scripts %}
+	<script>
+	$('#datepicker').datepicker({
+            uiLibrary: 'bootstrap4',
+            format: 'yyyy-mm-dd',
+            disableTouchKeyboard: true,
+        });
+	</script>
+{% endblock scripts %}

@@ -5,7 +5,17 @@
 {% block container %}
     <form action="." method="POST" enctype="">
     	{% csrf_token %}
-    	{{form.as_p}}
+    	<input type="hidden" name="user" value="{{ request.user.pk }}">
+    	<label for="name">Nombre:</label>
+    	<input type="text" name="name" class="form-control" id="name">
+    	<label for="description">Descripción:</label>
+    	<textarea name="description" id="description" class="form-control"></textarea>
+    	<label for="nature">Naturaleza:</label>
+    	<select name="nature" id="nature" class="form-control">
+    		{% for option in form.nature %}
+    			{{option}}
+    		{% endfor %}
+    	</select>
 		<button type="submit">Crear!</button>
     </form>
 {% endblock container %}
