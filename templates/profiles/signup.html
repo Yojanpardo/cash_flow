@@ -3,9 +3,15 @@
     Registro
 {% endblock title %}
 {% block container %}
-	<form action="{% url 'profiles:signup' %}" method="POST">
-		{% csrf_token %}
-		{{form}}
-		<button type="submit">Regístrate</button>
-	</form>
+<div class="row mt-5 justify-content-center">
+	<div class="col-sm-12 col-md-4 mt-3 border rounded bg-white">
+		<h1 class="mt-4 text-center">Cash Flow</h1>
+		<form action="{% url 'profiles:signup' %}" method="POST">
+			{% csrf_token %}
+			{{form}}
+			<button type="submit" class="btn btn-primary mt-3 col">Regístrate</button>
+		</form>
+		<p class="mt-5">Ya tienes una cuenta? Inicia sesión <a href='{% url "profiles:login" %}'>aquí</a></p>
+	</div>
+</div>
 {% endblock container %}

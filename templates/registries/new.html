@@ -3,66 +3,66 @@
     Nuevo registro
 {% endblock title %}
 {% block container %}
-	<div class="row mt-5">
-		<div class="col-sm-12 col-md-8 align-self-center mt-3 offset-md-2">
-			<form action="{% url "registries:new" %}" method="POST" class="col align-self-center">
+	<div class="row mt-5 justify-content-center">
+		<div class="col-sm-12 col-md-8  mt-3 border rounded bg-white">
+			<form action="{% url "registries:new" %}" method="POST" class="col mt-4">
 				{% csrf_token %}
 				<input type="hidden" value="{{user.pk}}" name="user">
 				<label for="name">Título:</label>
-				<input type="text" name="name" id="name" class="form-control {% if form.name.errors %}invalid{% endif %}" value="{% if form.errors %}{{form.name.value}}{% endif %}">
+				<input type="text" name="name" id="name" class="form-control {% if form.name.errors %}is-invalid{% endif %}" value="{% if form.errors %}{{form.name.value}}{% endif %}">
 				{% if form.name.errors %}
-					<div class="alert alert-danger" role="alert">
+					<div class="invalid-feedback">
 					    {% for error in form.name.errors %}
 					    	{{error}}
 					    {% endfor %}
 					</div>
 				{% endif %}
 				<label for="description">Descripción:</label>
-				<textarea name="description" id="description" class="form-control {% if form.description.errors %}invalid{% endif %}">{% if form.errors %}{{form.description.value}}{% endif %}</textarea>
+				<textarea name="description" id="description" class="form-control {% if form.description.errors %}is-invalid{% endif %}">{% if form.errors %}{{form.description.value}}{% endif %}</textarea>
 				{% if form.description.errors %}
-					<div class="alert alert-danger" role="alert">
+					<div class="invalid-feedback">
 					    {% for error in form.description.errors %}
 					    	{{error}}
 					    {% endfor %}
 					</div>
 				{% endif %}
 				<label for="category">Categoria:</label>
-				<select name="category" id="category" class="form-control {% if form.category.errors %}invalid{% endif %}">
+				<select name="category" id="category" class="form-control {% if form.category.errors %}is-invalid{% endif %}">
 					{% if form.errors %}
 						{{form.category.value}}
 					{% else %}
 						<option value selected>----------</option>
 					{% endif %}
 					{% for category in categories %}
-						<option value="{{category.pk}}">{{category.name}}</option>
+						<option value="{{category.pk}}">{{category.name}} ({{category.nature}})</option>
 					{% endfor %}
 				</select>
 				{% if form.category.errors %}
-					<div class="alert alert-danger" role="alert">
+					<div class="invalid-feedback">
 					    {% for error in form.category.errors %}
 					    	{{error}}
 					    {% endfor %}
 					</div>
 				{% endif %}
 				<label for="datepicker">Fecha:</label>
-				<input id='datepicker' name="date" value="{% if form.errors %}{{ form.date.value }}{% else %}{{date}}{% endif %}" class="form-control {% if form.date.errors %}invalid{% endif %}" readonly="true">
+				<input id='datepicker' name="date" value="{% if form.errors %}{{ form.date.value }}{% else %}{{date}}{% endif %}" class="form-control {% if form.date.errors %}is-invalid{% endif %}" readonly="true">
 				{% if form.date.errors %}
-					<div class="alert alert-danger" role="alert">
+					<div class="invalid-feedback">
 					    {% for error in form.date.errors %}
 					    	{{error}}
 					    {% endfor %}
 					</div>
 				{% endif %}
 				<label for="value">Valor:</label>
-				<input type="number" id="value" name="value" class="form-control {% if form.value.errors %}invalid{% endif %}" value="{% if form.errors %}{{ form.value.value }}{% endif %}">
+				<input type="number" id="value" name="value" class="form-control {% if form.value.errors %}is-invalid{% endif %}" value="{% if form.errors %}{{ form.value.value }}{% endif %}">
 				{% if form.value.errors %}
-					<div class="alert alert-danger" role="alert">
+					<div class="invalid-feedback">
 					    {% for error in form.value.errors %}
 					    	{{error}}
 					    {% endfor %}
 					</div>
 				{% endif %}
-				<button type="submit">Registrar</button>
+				<button type="submit" class="btn btn-primary col mt-4 mb-4">Registrar</button>
 			</form>
 			
 		</div>

@@ -8,31 +8,34 @@
     <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 	<title>{% block title %}{% endblock title %}</title>
 </head>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-	  <a class="navbar-brand" href="{% url 'registries:home' %}">Cash Flow</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item active">
-	        <a class="nav-link" href="#">{{ request.user.username.title }}<span class="sr-only">(current)</span></a>
-	      </li>
-	      <li class="nav-item dropdown">
-	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	          Opciones
-	        </a>
-	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	          <a class="dropdown-item" href='{% url "registries:new" %}'>Nuevo registro</a>
-	          <a class="dropdown-item" href='{% url "categories:new" %}'>Nueva categoria</a>
-	          <div class="dropdown-divider"></div>
-	          <a class="dropdown-item" href='{% url "profiles:logout" %}'>Cerrar sesión</a>
-	        </div>
-	      </li>
-	    </ul>
-	  </div>
-	</nav>
+<body class="bg-light">
+	{% if not user.is_anonymous %}
+	    
+		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top border-bottom">
+		  <a class="navbar-brand" href="{% url 'registries:home' %}">Cash Flow</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href='{% url "registries:registries" %}'>{{ request.user.username.title }}<span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Opciones
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href='{% url "registries:new" %}'>Nuevo registro</a>
+		          <a class="dropdown-item" href='{% url "categories:new" %}'>Nueva categoria</a>
+		          <div class="dropdown-divider"></div>
+		          <a class="dropdown-item" href='{% url "profiles:logout" %}'>Cerrar sesión</a>
+		        </div>
+		      </li>
+		    </ul>
+		  </div>
+		</nav>
+	{% endif %}
 	<div class="container">
 		{% block container %}
 		{% endblock container %}

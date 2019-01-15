@@ -3,11 +3,16 @@
     Página principal
 {% endblock title %}
 {% block container %}
-    {% if balance > 0 %}
-    	<p>felicidades tienes un flujo de caja positivo</p>
-    	{{balance}} 
-    {% else %}
-    	<p>Cuidado! tu flujo de caja es negativo! revisa bien tus cuentas</p>
-    	{{balance}}   
-    {% endif %}
+	<div class="row mt-5 justify-content-center">
+		<div class="col mt-5">
+			{% if balance >= 0 %}
+	    		<h2>felicidades tienes un flujo de caja positivo</h2>
+	    	{% else %}
+	    		<h2 class="text-danger">Cuidado! tu flujo de caja es negativo! revisa bien tus cuentas</h2>
+	    	{% endif %}
+		</div>
+		<div class="col mt-5">
+			<h2 class="{% if balance < 0 %} text-danger {% else %} text-success {% endif %} text-right">${% if balance < 0 %}-{% endif %}{{balance}}</h2>
+		</div>
+	</div>
 {% endblock container %}

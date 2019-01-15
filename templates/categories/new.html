@@ -3,19 +3,23 @@
     Nueva categoria
 {% endblock title %}
 {% block container %}
-    <form action="." method="POST" enctype="">
-    	{% csrf_token %}
-    	<input type="hidden" name="user" value="{{ request.user.pk }}">
-    	<label for="name">Nombre:</label>
-    	<input type="text" name="name" class="form-control" id="name">
-    	<label for="description">Descripción:</label>
-    	<textarea name="description" id="description" class="form-control"></textarea>
-    	<label for="nature">Naturaleza:</label>
-    	<select name="nature" id="nature" class="form-control">
-    		{% for option in form.nature %}
-    			{{option}}
-    		{% endfor %}
-    	</select>
-		<button type="submit">Crear!</button>
-    </form>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-sm-12 col-md-6 mt-3 border rounded bg-white">
+            <form action="." method="POST" class="mt-4">
+            	{% csrf_token %}
+            	<input type="hidden" name="user" value="{{ request.user.pk }}">
+            	<label for="name">Nombre:</label>
+            	<input type="text" name="name" class="form-control" id="name">
+            	<label for="description">Descripción:</label>
+            	<textarea name="description" id="description" class="form-control"></textarea>
+            	<label for="nature">Naturaleza:</label>
+            	<select name="nature" id="nature" class="form-control">
+            		{% for option in form.nature %}
+            			{{option}}
+            		{% endfor %}
+            	</select>
+        		<button type="submit" class="btn btn-primary col mb-4 mt-4">Crear!</button>
+            </form>
+        </div>
+    </div>
 {% endblock container %}
