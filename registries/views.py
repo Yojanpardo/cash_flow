@@ -41,12 +41,11 @@ class NewRegistryView(LoginRequiredMixin,CreateView):
 class ListRegistriesView(LoginRequiredMixin,ListView):
 	template_name = 'registries/list.html'
 	model = Registry
-	ordering = '-created'
 	paginated_by = 30
 	context_object_name = 'registries'
 	query_set = User.objects.all()
 	def get_context_data(self, **kwargs):
 	    context = super().get_context_data(**kwargs)
 	    user = self.request.user
-	    context['registries'] = Registry.objects.filter(user=user).order_by('-created')
+	    context['registries'] = Registry.objects.filter(user=user).order_by('-date')
 	    return context
