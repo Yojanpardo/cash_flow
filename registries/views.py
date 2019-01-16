@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, DayArchiveView
 from django.urls import reverse_lazy
 from .forms import NewRegistryForm
 from .models import Registry
@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from datetime import datetime
 from categories.models import Category
+from django.http import Http404
 # Create your views here.
 
 class HomeView(LoginRequiredMixin,TemplateView):
@@ -49,3 +50,61 @@ class ListRegistriesView(LoginRequiredMixin,ListView):
 	    user = self.request.user
 	    context['registries'] = Registry.objects.filter(user=user).order_by('-date')
 	    return context
+
+class DayReport(LoginRequiredMixin, DayArchiveView):
+	"""DayReport renders a template with a day detail """
+	queryset = Registry.objects.all()
+	date_field = "date"
+	allow_future = True
+	template_name = 'registries/day_report.html'
+	context_object_name = 'registries'
+	month_format = '%m'
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		user = self.request.user
+		month = self.get_month
+		date = '{}-{}-{}'.format(self.get_year(),self.get_month(),self.get_day())
+		context['registries'] = Registry.objects.filter(date=date, user=user).order_by('category',)
+		if not context['registries']:
+			raise Http404('No se encontraron registros de este dia')
+		return context
+
+
+"""
+	def get_day(self):
+		day = self.day
+		if day is None:
+			try:
+				day = self.kwargs['day']
+			except KeyError:
+				try:
+					day = self.request.GET['day']
+				except KeyError:
+					raise Http404(_("No day specified"))
+		return day
+
+	def get_month(self):
+		
+		month = self.month
+		if month is None:
+			try:
+				month = self.kwargs['month']
+			except KeyError:
+				try:
+					month = self.request.GET['month']
+				except KeyError:
+					raise Http404(_("No month specified"))
+		return month
+
+	def get_year(self):
+
+		year = self.year
+		if year is None:
+			try:
+				year = self.kwargs['year']
+			except KeyError:
+				try:
+					year = self.request.GET['year']
+				except KeyError:
+					raise Http404(_("No year specified"))
+		return year"""
