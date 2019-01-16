@@ -45,6 +45,7 @@ class ListRegistriesView(LoginRequiredMixin,ListView):
 	paginated_by = 30
 	context_object_name = 'registries'
 	query_set = User.objects.all()
+	
 	def get_context_data(self, **kwargs):
 	    context = super().get_context_data(**kwargs)
 	    user = self.request.user
