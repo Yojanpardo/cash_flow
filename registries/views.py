@@ -52,6 +52,23 @@ class ListRegistriesView(LoginRequiredMixin,ListView):
 	    context['registries'] = Registry.objects.filter(user=user).order_by('-date')
 	    return context
 
+class RegistriesSearchView(ListView):
+    model = Registry
+    template_name = "registries/search.html"
+    paginated_by = 30
+    context_object_name = 'registries'
+
+    def get_context_data(self, **kwargs):
+    	context = super().get_context_data(**kwargs)
+    	user = self.request.user
+    	date = self.request.GET['date']
+    	year = date[0:4]
+    	month = date[5:7]
+    	day = date[8:10]
+    	context['registries'] = Registry.objects.filter(user=user,date=date).order_by('category')
+    	context['date'] = {'date':date,'year':year,'month':month,'day':day}
+    	return context
+
 class DayReport(LoginRequiredMixin, DayArchiveView):
 	"""DayReport renders a template with a day detail """
 	queryset = Registry.objects.all()

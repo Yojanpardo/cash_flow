@@ -4,7 +4,7 @@
 {% endblock title %}
 {% block container %}
 	<div class="row mt-5 justify-content-center">
-		<div class="col-sm-12 col-md-8  mt-3 border rounded bg-white">
+		<div class="col-sm-12 col-md-8  mt-5 border rounded bg-white ml-3 mr-3">
 			<form action="{% url "registries:new" %}" method="POST" class="col mt-4">
 				{% csrf_token %}
 				<input type="hidden" value="{{user.pk}}" name="user">
