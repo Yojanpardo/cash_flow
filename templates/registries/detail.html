@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}
+    {{registry.name}}
+{% endblock title %}
+{% block container %}
+    <div class="row mt-5 justify-content-center">
+    	<div class="col-sm-12 col-md-6 mt-5">
+    		<div class="card">
+    			<div class="card-header">
+    				{{registry.name}}
+    			</div>
+    			<div class="card-body">
+    				<blockquote class="blockquote mb-0">
+    					<p>{{registry.description}}</p>
+    					<p class="{% if registry.category.nature == 'EG' %}text-danger{% else %}text-success{% endif %}">{{registry.value}}</p>
+    					<footer class="blockquote-footer">
+    						<p>Fecha: <cite title="Fecha de registro">{{registry.date}}</cite></p>
+    						<p>Modificado: <cite title="Fecha de modificación">{{registry.modified}}</cite></p>
+    						<p>Creado: <cite title="Fecha de creación">{{registry.created}}</cite></p>
+    					</footer>
+    				</blockquote>
+    			</div>
+    		</div>
+    		<p class="text-right" style="font-size:1.5rem;">
+    			<a href="{% url 'registries:delete' registry.pk %}" class="badge badge-pill badge-danger pl-3 pr-3">Eliminar</a>
+    			<a href="{% url 'registries:update' registry.pk %}" class="badge badge-pill badge-warning pr-3 pl-3">Editar</a>
+    		</p>
+    		
+    	</div>
+    </div>
+{% endblock container %}

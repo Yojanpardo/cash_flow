@@ -10,6 +10,7 @@ class Registry(models.Model):
 
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	date = models.DateField(default=True)
+	
 	created = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
 	

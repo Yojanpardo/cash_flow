@@ -1,6 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, CreateView, ListView, DayArchiveView
-from django.urls import reverse_lazy
+from django.views.generic import (
+		TemplateView, CreateView, ListView,
+		DayArchiveView, DetailView, UpdateView,
+		DeleteView
+	)
+from django.urls import reverse_lazy, reverse
 from .forms import NewRegistryForm
 from .models import Registry
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -32,7 +36,7 @@ class NewRegistryView(LoginRequiredMixin,CreateView):
 	form_class = NewRegistryForm
 	template_name = 'registries/new.html'
 	success_url = reverse_lazy('registries:home')
-	extra_context = {'date':datetime.now().strftime('%Y-%m-%d')}
+	extra_context = {'date':datetime.now().strftime('%Y-%m-%d'), 'new':True}
 	def get_context_data(self, **kwargs):
 	    context = super().get_context_data(**kwargs)
 	    user = self.request.user
@@ -44,7 +48,6 @@ class ListRegistriesView(LoginRequiredMixin,ListView):
 	model = Registry
 	paginated_by = 30
 	context_object_name = 'registries'
-	query_set = User.objects.all()
 	
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -52,7 +55,7 @@ class ListRegistriesView(LoginRequiredMixin,ListView):
 		context['registries'] = Registry.objects.filter(user=user).order_by('-date')
 		return context
 
-class RegistriesSearchView(ListView):
+class RegistriesSearchView(LoginRequiredMixin, ListView):
     model = Registry
     template_name = "registries/search.html"
     paginated_by = 30
@@ -68,6 +71,60 @@ class RegistriesSearchView(ListView):
     	context['registries'] = Registry.objects.filter(user=user,date=date).order_by('category')
     	context['date'] = {'date':date,'year':year,'month':month,'day':day}
     	return context
+
+class RegistryDetailView(LoginRequiredMixin, DetailView):
+    model = Registry
+    template_name = "registries/detail.html"
+    context_object_name = 'registry'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        user = self.request.user
+        registry = Registry.objects.get(pk=pk)
+        if user == registry.user:
+            context['registry'] = registry
+        else:
+        	raise Http404('Registro no encontrado')
+
+        return context
+
+class RegistryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Registry
+    template_name = "registries/update.html"
+    context_object_name = 'registry'
+    fields = ['name','description','category','user','value','date']
+    extra_context={'new':True}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        categories = Category.objects.filter(user=user)
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        registry = Registry.objects.get(pk=pk)
+        context['categories']=categories
+        if registry.user != user:
+        	raise Http404('Registro no encontrado.')
+        return context
+
+    def get_success_url(self):
+    	registry = Registry.objects.get(pk=self.kwargs.get(self.pk_url_kwarg))
+    	return reverse('registries:detail', kwargs={'pk':registry.pk})
+
+class RegistryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Registry
+    template_name = "registries/delete.html"
+    context_object_name = 'registry'
+    success_url = reverse_lazy('registries:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        user = self.request.user
+        registry = Registry.objects.get(pk=pk)
+        if registry.user != user:
+        	raise Http404('Registro no encontrado.')
+        return context
 
 class DayReport(LoginRequiredMixin, DayArchiveView):
 	"""DayReport renders a template with a day detail """

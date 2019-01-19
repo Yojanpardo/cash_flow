@@ -15,6 +15,8 @@ class RegistryAdmin(admin.ModelAdmin):
 			'fields':(('created','modified'),),
 		}),
 	)
+
+	list_filter=('user',)
 	readonly_fields = ('created','modified')
 	def formfield_for_foreignkey(self, db_field, request, **kwargs):
 		if db_field.name == "category":

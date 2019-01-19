@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}
-    Nuevo registro
+    Editar {{registry.pk}}
 {% endblock title %}
 {% block container %}
-	<div class="row mt-5 justify-content-center">
+		<div class="row mt-5 justify-content-center">
 		<div class="col-sm-12 col-md-8  mt-5 border rounded bg-white ml-3 mr-3">
-			<form action="{% url "registries:new" %}" method="POST" class="col mt-4">
+			<form action="{% url 'registries:update' registry.pk %}" method="POST" class="col mt-4">
 				{% csrf_token %}
 				<input type="hidden" value="{{user.pk}}" name="user">
 				<label for="name">Título:</label>
-				<input type="text" name="name" id="name" class="form-control {% if form.name.errors %}is-invalid{% endif %}" value="{% if form.errors %}{{form.name.value}}{% endif %}">
+				<input type="text" name="name" id="name" class="form-control {% if form.name.errors %}is-invalid{% endif %}" value="{% if form.errors %}{{form.name.value}}{% else %}{{ registry.name }}{% endif %}">
 				{% if form.name.errors %}
 					<div class="invalid-feedback">
 					    {% for error in form.name.errors %}
@@ -18,7 +18,7 @@
 					</div>
 				{% endif %}
 				<label for="description">Descripción:</label>
-				<textarea name="description" id="description" class="form-control {% if form.description.errors %}is-invalid{% endif %}">{% if form.errors %}{{form.description.value}}{% endif %}</textarea>
+				<textarea name="description" id="description" class="form-control {% if form.description.errors %}is-invalid{% endif %}">{% if form.errors %}{{form.description.value}}{% else %}{{ registry.description }}{% endif %}</textarea>
 				{% if form.description.errors %}
 					<div class="invalid-feedback">
 					    {% for error in form.description.errors %}
@@ -30,9 +30,11 @@
 				<select name="category" id="category" class="form-control {% if form.category.errors %}is-invalid{% endif %}">
 					{% if form.errors %}
 						{{form.category.value}}
+					{% elif registry.category %}
+						<option value="{{registry.category.pk}}">{{registry.category.name}}</option>
 					{% else %}
 						<option value selected>----------</option>
-					{% endif %}
+					{%endif%}
 					{% for category in categories %}
 						<option value="{{category.pk}}">{{category.name}} ({{category.nature}})</option>
 					{% endfor %}
@@ -45,7 +47,7 @@
 					</div>
 				{% endif %}
 				<label for="datepicker">Fecha:</label>
-				<input id='datepicker' name="date" value="{% if form.errors %}{{ form.date.value }}{% else %}{{date}}{% endif %}" class="form-control {% if form.date.errors %}is-invalid{% endif %}" readonly="true">
+				<input id='datepicker' name="date" value="{% if form.errors %}{{ form.date.value }}{% else %}{{registry.date|date:'Y-m-d'}}{% endif %}" class="form-control {% if form.date.errors %}is-invalid{% endif %}" readonly="true">
 				{% if form.date.errors %}
 					<div class="invalid-feedback">
 					    {% for error in form.date.errors %}
@@ -54,7 +56,7 @@
 					</div>
 				{% endif %}
 				<label for="value">Valor:</label>
-				<input type="number" id="value" name="value" class="form-control {% if form.value.errors %}is-invalid{% endif %}" value="{% if form.errors %}{{ form.value.value }}{% endif %}">
+				<input type="number" id="value" name="value" class="form-control {% if form.value.errors %}is-invalid{% endif %}" value="{% if form.errors %}{{ form.value.value }}{% else %}{{registry.value}}{% endif %}">
 				{% if form.value.errors %}
 					<div class="invalid-feedback">
 					    {% for error in form.value.errors %}
@@ -62,10 +64,8 @@
 					    {% endfor %}
 					</div>
 				{% endif %}
-				<button type="submit" class="btn btn-primary col mt-4 mb-4">Registrar</button>
+				<button type="submit" class="btn btn-primary col mt-4 mb-4">Actualizar</button>
 			</form>
 		</div>
 	</div>
 {% endblock container %}
-{% block scripts %}
-{% endblock scripts %}
