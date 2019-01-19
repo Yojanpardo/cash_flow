@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block title %}
     {{day}}
 {% endblock title %}
@@ -17,11 +18,31 @@
 				</thead>
 				<tbody>
 					{% for registry in registries %}
-						<th scope="row">{{registry.pk}}</th>
-						<th>{{registry.name}}</th>
-						<th>{{registry.category}}</th>
-						<th>{{registry.value}}</th>
+						<tr>
+							<th scope="row">{{registry.pk}}</th>
+							<th>{{registry.name}}</th>
+							<th>{{registry.category}}</th>
+							<th>{{registry.value|intcomma}}</th>
+						</tr>
 					{% endfor %}
+					<tr>
+						<th scope="row">Total egresos</th>
+						<th></th>
+						<th></th>
+						<th>{{movements.egresses|intcomma}}</th>
+					</tr>
+					<tr>
+						<th scope="row">Total ingresos</th>
+						<th></th>
+						<th></th>
+						<th>{{movements.entries|intcomma}}</th>
+					</tr>
+					<tr>
+						<th scope="row">Balance del día:</th>
+						<th></th>
+						<th></th>
+						<th class="{% if movements.balance < 0 %}text-danger{% else %}text-success{% endif %}">{{movements.balance|intcomma}}</th>
+					</tr>
 				</tbody>
 			</table>
 		</div>

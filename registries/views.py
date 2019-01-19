@@ -47,10 +47,10 @@ class ListRegistriesView(LoginRequiredMixin,ListView):
 	query_set = User.objects.all()
 	
 	def get_context_data(self, **kwargs):
-	    context = super().get_context_data(**kwargs)
-	    user = self.request.user
-	    context['registries'] = Registry.objects.filter(user=user).order_by('-date')
-	    return context
+		context = super().get_context_data(**kwargs)
+		user = self.request.user
+		context['registries'] = Registry.objects.filter(user=user).order_by('-date')
+		return context
 
 class RegistriesSearchView(ListView):
     model = Registry
@@ -85,4 +85,15 @@ class DayReport(LoginRequiredMixin, DayArchiveView):
 		context['registries'] = Registry.objects.filter(date=date, user=user).order_by('category',)
 		if not context['registries']:
 			raise Http404('No se encontraron registros de este dia')
+
+		egresses = Registry.objects.filter(category__nature='EG',user=user)
+		entries = Registry.objects.filter(category__nature='EN',user=user)
+		total_egresses = 0
+		total_entries = 0
+		for egress in egresses:
+			total_egresses += egress.value
+		for entry in entries:
+			total_entries += entry.value
+		balance = total_entries - total_egresses
+		context['movements'] = {'egresses':total_egresses,'entries':total_entries,'balance':balance}
 		return context
