@@ -86,8 +86,8 @@ class DayReport(LoginRequiredMixin, DayArchiveView):
 		if not context['registries']:
 			raise Http404('No se encontraron registros de este dia')
 
-		egresses = Registry.objects.filter(category__nature='EG',user=user)
-		entries = Registry.objects.filter(category__nature='EN',user=user)
+		egresses = Registry.objects.filter(category__nature='EG',user=user, date=date)
+		entries = Registry.objects.filter(category__nature='EN',user=user, date=date)
 		total_egresses = 0
 		total_entries = 0
 		for egress in egresses:
