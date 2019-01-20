@@ -116,7 +116,7 @@ class RegistryDeleteView(LoginRequiredMixin, DeleteView):
     model = Registry
     template_name = "registries/delete.html"
     context_object_name = 'registry'
-    success_url = reverse_lazy('registries:home')
+    success_url = reverse_lazy('registries:registries')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
