@@ -1,5 +1,5 @@
 import os
-
+import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -11,14 +11,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd^-mrxcwfdrgi(^trcv@m_rfgfw%e0)7ub@*#3c4^wdm#1i-n4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','.herokuapp.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'cash_flow.urls'
@@ -68,8 +70,12 @@ WSGI_APPLICATION = 'cash_flow.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+        'NAME':'cash_flow',
+        'USER':'cash_flow',
+        'PASSWORD':'1234567890',
+        'HOST':'localhost',
+        'PORT':'',
     }
 }
 
@@ -109,19 +115,24 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 #https://docs.djangoproject.com/en/2.1/howto/static-files/
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR,'static'),
-)
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 LOGIN_URL = 'profiles:login'
 LOGIN_REDIRECT_URL = 'registries:home'
 LOGOUT_REDIRECT_URL = LOGIN_URL
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+try:
+    from .local_settings import *
+except Exception as e:
+    raise
