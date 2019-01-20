@@ -20,12 +20,12 @@
     						<p>Creado: <cite title="Fecha de creación">{{registry.created}}</cite></p>
     					</footer>
     				</blockquote>
-    			</div>
-    		</div>
-    		<p class="text-right" style="font-size:1.5rem;">
-    			<a href="{% url 'registries:delete' registry.pk %}" class="badge badge-pill badge-danger pl-3 pr-3">Eliminar</a>
-    			<a href="{% url 'registries:update' registry.pk %}" class="badge badge-pill badge-warning pr-3 pl-3">Editar</a>
-    		</p>
+                    <p class="text-right">
+            			<a href="{% url 'registries:delete' registry.pk %}" class="btn btn-danger pl-3 pr-3">Eliminar</a>
+            			<a href="{% url 'registries:update' registry.pk %}" class="btn btn-warning pr-3 pl-3">Editar</a>
+                    </p>
+                </div>
+            </div>
     		
     	</div>
     </div>

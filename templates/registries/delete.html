@@ -19,20 +19,20 @@
     						<p>Creado: <cite title="Fecha de creación">{{registry.created}}</cite></p>
     					</footer>
     				</blockquote>
-    			</div>
-    		</div>
-    		<form action="{% url 'registries:delete' registry.pk %}" method="POST">
-    			{% csrf_token %}
-    			<div class="form-group">
-    				<div class="alert alert-danger">
-    					Estás seguro de que quieres eliminar el registro <span class="font-italic">"{{registry.name}}"</span>?
-    				</div>
-    				<div class="row">
-	    				<button type="submit" value="confirm" class="btn btn-danger col m-1">Confirmar</button>
-	    				<a href="javascript:history.back(1)" class="btn btn-primary col m-1">Regresar</a>
-       				</div>
-    			</div>
-    		</form>
+            		<form action="{% url 'registries:delete' registry.pk %}" method="POST">
+            			{% csrf_token %}
+            			<div class="form-group">
+            				<div class="alert alert-danger">
+            					Estás seguro de que quieres eliminar el registro <span class="font-italic">"{{registry.name}}"</span>?
+            				</div>
+            				<div class="row">
+        	    				<button type="submit" value="confirm" class="btn btn-danger col m-1">Confirmar</button>
+        	    				<a href="javascript:history.back(1)" class="btn btn-primary col m-1">Regresar</a>
+               				</div>
+            			</div>
+            		</form>
+                </div>
+            </div>
     	</div>
     </div>
 {% endblock container %}

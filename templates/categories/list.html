@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+    Categorias
+{% endblock title %}
+{% block container %}
+	<div class="row mt-5 justify-content-center">
+		<div class="col-sm-12 col-md-6 mt-3 table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Nombre</th>
+						<th>Naturaleza</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for category in categories %}
+						<tr>
+							<th>#{{category.pk}}</th>
+							<th><a href="{% url 'categories:detail' category.pk %}">{{category.name|title}}</a></th>
+							<th>{{category.nature|title}}</th>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock container %}

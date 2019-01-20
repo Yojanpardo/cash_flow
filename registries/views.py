@@ -37,6 +37,7 @@ class NewRegistryView(LoginRequiredMixin,CreateView):
 	template_name = 'registries/new.html'
 	success_url = reverse_lazy('registries:home')
 	extra_context = {'date':datetime.now().strftime('%Y-%m-%d'), 'new':True}
+	
 	def get_context_data(self, **kwargs):
 	    context = super().get_context_data(**kwargs)
 	    user = self.request.user
