@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
 	NATURE =(
-		('EN','Ingreso'),
-		('EG','Egreso'),
+		('ingreso','Ingreso'),
+		('egreso','Egreso'),
 	)
 	name = models.CharField(max_length=25)
 	description = models.TextField(blank=True, null=True)
 
-	nature = models.CharField(max_length=2,choices=NATURE)
+	nature = models.CharField(max_length=7,choices=NATURE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 	created = models.DateTimeField(auto_now_add=True)

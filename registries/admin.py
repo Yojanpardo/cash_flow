@@ -9,7 +9,7 @@ class RegistryAdmin(admin.ModelAdmin):
 
 	fieldsets = (
 		('Registry',{
-			'fields':(('name','description'),('value','category'),),
+			'fields':(('name','description'),('value','category','user'),),
 		}),
 		('Metadata',{
 			'fields':(('created','modified'),),

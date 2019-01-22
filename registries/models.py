@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Registry(models.Model):
-	name = models.CharField(max_length=30)
+	name = models.CharField(max_length=30, blank=True, null=True)
 	description = models.TextField()
 	category = models.ForeignKey('categories.Category', on_delete=models.CASCADE)
 	value = models.BigIntegerField()

@@ -8,24 +8,6 @@
 			<form action="{% url "registries:new" %}" method="POST" class="col mt-4">
 				{% csrf_token %}
 				<input type="hidden" value="{{user.pk}}" name="user">
-				<label for="name">Título:</label>
-				<input type="text" name="name" id="name" class="form-control {% if form.name.errors %}is-invalid{% endif %}" value="{% if form.errors %}{{form.name.value}}{% endif %}">
-				{% if form.name.errors %}
-					<div class="invalid-feedback">
-					    {% for error in form.name.errors %}
-					    	{{error}}
-					    {% endfor %}
-					</div>
-				{% endif %}
-				<label for="description">Descripción:</label>
-				<textarea name="description" id="description" class="form-control {% if form.description.errors %}is-invalid{% endif %}">{% if form.errors %}{{form.description.value}}{% endif %}</textarea>
-				{% if form.description.errors %}
-					<div class="invalid-feedback">
-					    {% for error in form.description.errors %}
-					    	{{error}}
-					    {% endfor %}
-					</div>
-				{% endif %}
 				<label for="category">Categoria:</label>
 				<select name="category" id="category" class="form-control {% if form.category.errors %}is-invalid{% endif %}">
 					{% if form.errors %}
@@ -37,6 +19,15 @@
 						<option value="{{category.pk}}">{{category.name}} ({{category.nature}})</option>
 					{% endfor %}
 				</select>
+				<label for="description">Descripción:</label>
+				<textarea name="description" id="description" class="form-control {% if form.description.errors %}is-invalid{% endif %}">{% if form.errors %}{{form.description.value}}{% endif %}</textarea>
+				{% if form.description.errors %}
+					<div class="invalid-feedback">
+					    {% for error in form.description.errors %}
+					    	{{error}}
+					    {% endfor %}
+					</div>
+				{% endif %}
 				{% if form.category.errors %}
 					<div class="invalid-feedback">
 					    {% for error in form.category.errors %}

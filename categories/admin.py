@@ -8,7 +8,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 	fieldsets = (
 		('Category',{
-			'fields':(('name','description'),('nature'),),
+			'fields':(('name','description'),('nature','user'),),
 		}),
 		('Metadata',{
 			'fields':(('created','modified'),),

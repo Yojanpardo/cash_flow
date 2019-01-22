@@ -11,7 +11,6 @@
 				<thead>
 					<tr>
 						<th scope='col'>#</th>
-						<th scope='col'>Nombre</th>
 						<th scope='col'>Categoria</th>
 						<th scope='col'>Valor</th>
 					</tr>
@@ -20,7 +19,6 @@
 					{% for registry in registries %}
 						<tr>
 							<th scope="row">{{registry.pk}}</th>
-							<th>{{registry.name}}</th>
 							<th>{{registry.category}}</th>
 							<th>{{registry.value|intcomma}}</th>
 						</tr>
