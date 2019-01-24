@@ -2,3 +2,6 @@
 *.sqlite3
 *.pyc
 media/
+static/admin/
+local_settings.py
+staticfiles.json
