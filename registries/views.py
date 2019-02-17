@@ -4,6 +4,7 @@ from django.views.generic import (
 		DayArchiveView, DetailView, UpdateView,
 		DeleteView
 	)
+from django.core.paginator import Paginator
 from django.urls import reverse_lazy, reverse
 from .forms import NewRegistryForm
 from .models import Registry
@@ -47,13 +48,16 @@ class NewRegistryView(LoginRequiredMixin,CreateView):
 class ListRegistriesView(LoginRequiredMixin,ListView):
 	template_name = 'registries/list.html'
 	model = Registry
-	paginated_by = 30
 	context_object_name = 'registries'
 	
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		user = self.request.user
-		context['registries'] = Registry.objects.filter(user=user).order_by('-date')
+		registries_list = Registry.objects.filter(user=user).order_by('-date')
+		paginator = Paginator(registries_list,30)
+		page = self.request.GET.get('page')
+		registries = paginator.get_page(page)
+		context['registries'] = registries
 		return context
 
 class RegistriesSearchView(LoginRequiredMixin, ListView):
