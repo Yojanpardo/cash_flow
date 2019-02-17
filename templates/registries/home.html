@@ -1,19 +1,35 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% block title %}
-    Página principal
+Página principal
 {% endblock title %}
 {% block container %}
-	<div class="row mt-5 justify-content-center">
-		<div class="col mt-5">
-			{% if balance >= 0 %}
-	    		<h2>felicidades tienes un flujo de caja positivo</h2>
-	    	{% else %}
-	    		<h2 class="text-danger">Cuidado! tu flujo de caja es negativo! revisa bien tus cuentas</h2>
-	    	{% endif %}
+<div>
+	
+	<div class="jumbotron mt-5">
+		<div class="row ">
+			<div class="col-sm-12 col-md-8">
+				<h1 class="display-3">Cash Flow</h1>
+				{% if balance >= 0 %}
+				<h2>felicidades tienes un flujo de caja positivo</h2>
+				{% else %}
+				<h2 class="text-danger">Cuidado! tu flujo de caja es negativo! revisa bien tus cuentas</h2>
+				{% endif %}
+
+			</div>
+			<div class="col-sm-12 col-md-4 mt-5">
+				<h2 class="{% if balance < 0 %} text-danger {% else %} text-success {% endif %} text-right">${{balance|intcomma}}</h2>
+			</div>
+			<p class="lead col">Recuerda que el total reflejado en el programa debe concordar con tu dinero actual.</p>
 		</div>
-		<div class="col mt-5">
-			<h2 class="{% if balance < 0 %} text-danger {% else %} text-success {% endif %} text-right">${{balance|intcomma}}</h2>
+		<hr class="my-4">
+		<div class="card col-sm-12 col-md-4">
+			<div class="card-body">
+				<h4 class="card-title">Nuevo registro</h4>
+				<p class="card-text">Aquí puede crear un nuevo registro, solo tienes que hacer clic en el botón de abajo.</p>
+				<a href="{% url 'registries:new' %}" class="card-link btn btn-primary">Registrar!</a>
+			</div>
 		</div>
 	</div>
+</div>
 {% endblock container %}
