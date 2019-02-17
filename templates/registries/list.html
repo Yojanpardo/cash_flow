@@ -1,25 +1,37 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% block title %}
-    Registros
+Registros
 {% endblock title %}
 {% block container %}
-	<br><br><br>
-	{% for registry in registries %}
-	<div class="row mt-3 justify-content-center">
-		<div class="col-sm-12 col-md-8 col-lg-6 ">
-			<div class="card">
-				<div class="card-header"><a href="{% url 'registries:detail' registry.pk %}">{{registry.category.name}}</a></div>
-			  	<div class="card-body">
-			    	<blockquote class="blockquote mb-0">
-			      		<p>{{registry.description}}</p>
-						<p>${{registry.value|intcomma}}</p>
-			      	<footer class="blockquote-footer text-right">{{registry.category.nature}} <cite title="Fecha del registro">{{registry.date}}</cite></footer>
-			    </blockquote>
-			  </div>
+<br><br><br>
+{% for registry in registries %}
+<div class="row mt-3 justify-content-center">
+	<div class="col-sm-12 col-md-8 col-lg-6 ">
+		<div class="card">
+			<div class="card-header"><a href="{% url 'registries:detail' registry.pk %}">{{registry.category.name}}</a></div>
+			<div class="card-body">
+				<blockquote class="blockquote mb-0">
+					<p>{{registry.description}}</p>
+					<p>${{registry.value|intcomma}}</p>
+					<footer class="blockquote-footer text-right">{{registry.category.nature}} <cite title="Fecha del registro">{{registry.date}}</cite></footer>
+				</blockquote>
 			</div>
 		</div>
 	</div>
-	{% endfor %}
-	
+</div>
+{% endfor %}
+<div class="fixed-bottom">
+	<ul class="pagination float-right mr-5">
+		<li class="page-item {% if not registries.has_previous %}disabled{% endif %}">
+			<a class="page-link" href="{% if registries.has_previous %}?page={{registries.previous_page_number}}{% endif %}">&laquo;</a>
+		</li>
+		<li class="page-item active">
+			<a class="page-link" href="#">{{registries.number}} of {{registries.paginator.num_pages}}</a>
+		</li>
+		<li class="page-item {% if not registries.has_next %}disabled{% endif %}">
+			<a class="page-link" href="{% if registries.has_next %}?page={{registries.next_page_number}}{% endif %}">&raquo;</a>
+		</li>
+	</ul>
+</div>
 {% endblock container %}
