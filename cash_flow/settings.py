@@ -11,7 +11,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd^-mrxcwfdrgi(^trcv@m_rfgfw%e0)7ub@*#3c4^wdm#1i-n4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1','.herokuapp.com']
 
@@ -132,3 +132,13 @@ MEDIA_URL = '/media/'
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+try:
+    from cash_flow.local_settings import *
+except Exception as e:
+    print('''
+        ********************************
+        no find local settings
+        error: {}
+        ********************************
+        '''.format(e))
+    pass
